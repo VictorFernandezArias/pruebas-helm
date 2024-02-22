@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prueba-2-values
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: openshift-gitops
+    server: 'https://kubernetes.default.svc'
+  project: app-of-apps
+  sources:
+    - helm:
+        valueFiles:
+          - $values01/values.yaml
+          - $values02/values.yaml
+      repoURL: 'https://github.com/VictorFernandezArias/pruebas-helm.git'
+      targetRevision: main
+      path: .
+    - ref: values01
+      repoURL: 'https://github.com/VictorFernandezArias/pruebas-values01.git'
+      targetRevision: main
+    - ref: values02
+      repoURL: 'https://github.com/VictorFernandezArias/pruebas-values02.git'
+      targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+    retry:
+      limit: 10
+    syncOptions:
+      - CreateNamespace=true
+      - PruneLast=true

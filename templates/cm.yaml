@@ -4,6 +4,6 @@ metadata:
   name: my-app-config
 data:
   app-name: {{ .Values.app.name }}
-  app-port: {{ .Values.app.port }}
+  app-port: "{{ .Values.app.port }}"
   db-host: {{ .Values.database.host }}
-  db-port: {{ .Values.database.port }}
+  db-port: "{{ .Values.database.port }}"
